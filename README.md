@@ -26,23 +26,5 @@ $ dd if=/dev/zero of=/tmp/aiofile bs=2048 count=5000
 $ sudo ldconfig /usr/local/lib
 
 # Need to run dpdk applications as root :(
-$ cargo build && sudo target/debug/starfish-example-app starfish-example-app/config/hello_blob.conf
+$ sudo ./run.sh
 ```
-
-## Example apps
-
-* https://github.com/percona/tokudb-engine
-* https://github.com/percona/tokudb-engine/wiki/Write-optimized-fractal-tree-storage
-* https://github.com/Tokutek
-* https://www.percona.com/blog/wp-content/uploads/2011/11/how-fractal-trees-work.pdf
-
-## Futures and async/await
-
-- https://internals.rust-lang.org/t/explicit-future-construction-implicit-await/7344
-- https://internals.rust-lang.org/t/pre-rfc-cps-transform-for-generators/7120
-
-## Useful
-
-- https://github.com/japaric/xargo/issues/45
-- https://github.com/hnes/libaco
-- http://www.f-stack.org/
