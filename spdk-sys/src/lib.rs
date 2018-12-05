@@ -36,6 +36,7 @@ mod ete_test {
     use std::mem;
     use std::path::Path;
 
+    #[ignore]
     #[test]
     pub fn ete_test() {
         let config_file = Path::new("config/hello_blob.conf").canonicalize().unwrap();
