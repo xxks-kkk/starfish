@@ -5,6 +5,7 @@ use std::path::Path;
 use std::path::PathBuf;
 
 static SPDK_INCLUDE_DIR: &'static str = "/usr/local/include";
+static SPDK_LIB_DIR: &'static str = "/usr/local/lib";
 
 fn generate_bindings() {
     let spdk_include_path = env::var("SPDK_INCLUDE").unwrap_or(SPDK_INCLUDE_DIR.to_string());
@@ -46,11 +47,15 @@ impl<'a> Generator<'a> {
                     .with_file_name(name)
                     .with_extension("h"),
             );
-            builder = builder.header(format!("{}", header_path.display()));
+            println!("header_path: {}", header_path.display());
+            builder = builder.header(format!("{}", header_path.display()));            
         }
 
+        let spdk_include_path_cmd = format!("-I{}/", self.spdk_include_path.display());
+        
         let bindings = builder
             .derive_default(true)
+            .clang_arg(spdk_include_path_cmd)
             .with_codegen_config(codegen_config)
             .generate_inline_functions(false)
             // If there are linking errors and the generated bindings have weird looking
@@ -70,8 +75,9 @@ impl<'a> Generator<'a> {
 }
 
 fn main() {
+    let spdk_lib_path = env::var("SPDK_LIB").unwrap_or(SPDK_LIB_DIR.to_string());
     generate_bindings();
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rustc-link-lib=spdk");
-    println!("cargo:rustc-link-search=native=/usr/local/lib");
+    println!("cargo:rustc-link-search=native={}", spdk_lib_path);
 }

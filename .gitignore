@@ -11,3 +11,5 @@ Cargo.lock
 # IDE directories
 /.idea/
 /.vscode/
+
+core
